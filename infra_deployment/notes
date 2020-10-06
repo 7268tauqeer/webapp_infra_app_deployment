@@ -1,0 +1,4 @@
+export TF_VAR_username=test
+export TF_VAR_password=abc12345
+
+

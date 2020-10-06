@@ -1,0 +1,6 @@
+---
+# vars file for app
+
+username:  "{{ lookup('env','TF_VAR_username') }}"
+password: "{{ lookup('env','TF_VAR_password') }}"
+rds_endpoint: "{{ lookup('env','TF_VAR_rds_endpoint') }}"

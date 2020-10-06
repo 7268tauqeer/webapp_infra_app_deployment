@@ -1,0 +1,10 @@
+---
+-
+  hosts: dev
+  become: yes
+  remote_user: ec2-user
+  roles:
+    - app
+
+# Three dots indicate the end of a YAML document
+...

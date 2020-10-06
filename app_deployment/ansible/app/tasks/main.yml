@@ -1,0 +1,55 @@
+---
+# tasks file for nginx---
+
+
+
+  - name: Download npm package installation script
+    get_url:
+      url: https://rpm.nodesource.com/setup_10.x
+      dest: /home/ec2-user/node_install.sh
+      mode: '0644'
+
+  - name: Install npm 
+    shell: sh /home/ec2-user/node_install.sh
+
+  - name: Install required packages
+    yum: 
+      name: ['git', 'nodejs']
+      state: present
+
+
+  - name: Clone a remote repo
+    git:
+      repo: https://github.com/7268tauqeer/nodejs-mysql-crud.git
+      dest: /home/ec2-user/nodejs-mysql
+      force: yes
+  
+  - name: Update packages based on package.json to their latest version.
+    npm:
+      path: /home/ec2-user/nodejs-mysql
+
+  - name: Install nodemon globally
+    npm:
+      name: nodemon
+      global: yes
+
+  - name: updating db host
+    lineinfile:
+      path: /home/ec2-user/nodejs-mysql/src/index.js
+      regexp: '^    host'
+      line: "    host: '{{ rds_endpoint }}',"
+
+  - name: updating db user
+    lineinfile:
+      path: /home/ec2-user/nodejs-mysql/src/index.js
+      regexp: '^    user'
+      line: "    user: '{{ username }}',"
+
+  - name: updating db password
+    lineinfile:
+      path: /home/ec2-user/nodejs-mysql/src/index.js
+      regexp: '^    password'
+      line: "    password: '{{ password }}',"
+
+# Three dots indicate the end of a YAML document
+...
